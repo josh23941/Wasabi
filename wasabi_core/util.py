@@ -15,6 +15,8 @@ def load_inputs(filename):
             inputs = input_file.read().splitlines()
             for i in inputs:
                 print "Loaded Input: " + i
+            print
+            return inputs
     except IOError:
         print "Input file does not exist"
 
