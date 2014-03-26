@@ -38,12 +38,11 @@ try:
     #app.log.debug("Config Loaded")
     app.run()
     
-    #load wasabi config
-    wasabi_config = load_input(app.pargs.config)
-    wasabi_config_json = json.loads(wasabi_config)
+    #load wasabi config json
+    wasabi_config = json.loads(load_input(app.pargs.config))
     
     # add application logic
-    request_url(wasabi_config_json['target'])
+    request_url(wasabi_config['target'])
     
     ''' KEPT FOR LOGGING REFERENCE
     if app.pargs.foo:
