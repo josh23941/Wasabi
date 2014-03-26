@@ -2,3 +2,4 @@ test_input
 .pydevproject
 .project
 *.pyc
+run_wasabi.sh

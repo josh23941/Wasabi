@@ -4,6 +4,7 @@ Created on Mar 24, 2014
 @author: josh23941
 '''
 from bs4 import BeautifulSoup
+from persistance import session, Link
 
 ''' PULLS LINKS FROM HTML DOCUMENT '''
 def get_child_links(html_doc):
@@ -14,6 +15,7 @@ def get_child_links(html_doc):
 
 def init_crawl(target):
     '''STORE TARGET IN DB WITH LEVEL 0'''
+    session.add(Link(name=target))
     
         
 get_child_links('<html><head><title>The Dormouse\'s story</title></head> \
