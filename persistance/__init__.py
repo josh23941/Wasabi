@@ -35,7 +35,8 @@ class Link(Base):
 '''CREATE ALL OF THE THINGS'''
 Base.metadata.create_all(engine)
 
-'''Test script'''
+'''Test script
 tester = Test(name='bob')
 session.add(tester)
 print session.query(Test).filter_by(name='bob').first()
+'''
