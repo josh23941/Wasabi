@@ -8,7 +8,8 @@ from cement.utils.misc import init_defaults
 from wasabi_core.util import load_input
 import json
 from wasabi_core.request import request_url
-from wasabi_core.crawler import get_child_links
+from wasabi_core.crawler import start_crawler
+import persistance
 
 def test():
     pass
@@ -45,8 +46,8 @@ try:
     wasabi_config = json.loads(load_input(app.pargs.config))
     
     # add application logic
-    app.log.info("Getting target's child links")
-    get_child_links(request_url((wasabi_config['target'].encode('utf-8'))))
+    # pass target to a start_crawler method in the crawler module
+    start_crawler(wasabi_config['target'].encode('utf-8'))
    
     ''' KEPT FOR LOGGING REFERENCE
     if app.pargs.foo:

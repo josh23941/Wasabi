@@ -29,14 +29,30 @@ class Link(Base):
     
     id = Column(Integer, primary_key=True)
     url = Column(String)
+    parent = Column(String)
     depth = Column(Integer)
     
-
+    def __repr__(self):
+        return "<Link(url='%s')>" % self.url
 '''CREATE ALL OF THE THINGS'''
 Base.metadata.create_all(engine)
 
-'''Test script
-tester = Test(name='bob')
-session.add(tester)
-print session.query(Test).filter_by(name='bob').first()
+'''Method for adding objects to the db
 '''
+def add_obj_to_session(_object):
+    session.add(_object)
+    try:
+        session.commit()
+    except:
+        session.rollback()
+        raise
+    finally:
+        session.close()
+
+testerlink = Link(url='blah',parent='', depth=1)
+add_obj_to_session(testerlink)
+print session.query(Link).filter_by(url='blah').first()
+
+tester = Test(name='bob')
+add_obj_to_session(tester)
+print session.query(Test).filter_by(name='bob').first()
