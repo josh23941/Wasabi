@@ -7,18 +7,18 @@ from cement.core import foundation
 from cement.utils.misc import init_defaults
 from wasabi_core.util import load_input
 import json
-from wasabi_core.request import request_url
-from wasabi_core.crawler import start_crawler
-import persistance
+from wasabi_core.crawler import start_crawler, crawl_report
 
-def test():
-    pass
 # set default config options
 defaults = init_defaults('myapp')
 defaults['myapp']['debug'] = True
 
 # create an application
 app = foundation.CementApp('wasabi', config_defaults=defaults)
+
+#placeholder for our external config
+wasabi_config = {}
+
 
 # register any framework hook functions after app creation, and before
 # app.setup()
@@ -28,6 +28,7 @@ def my_hook(app):
 
 hook.register('post_setup', my_hook)
 '''
+
 
 try:
     # setup the application
@@ -47,15 +48,17 @@ try:
     
     # add application logic
     # pass target to a start_crawler method in the crawler module
-    start_crawler(wasabi_config['target'].encode('utf-8'))
-   
+    
+    start_crawler(wasabi_config)
+    crawl_report()
     ''' KEPT FOR LOGGING REFERENCE
     if app.pargs.foo:
         app.log.info("Received the 'foo' option with value '%s'." % app.pargs.foo)
     else:
         app.log.warn("Did not receive a value for 'foo' option.")
     '''
-    
+except:
+    print 'Error setting up application'
 finally:
     # close the application
     app.close()

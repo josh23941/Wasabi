@@ -4,10 +4,12 @@ Created on Mar 24, 2014
 @author: josh23941
 '''
 from bs4 import BeautifulSoup
-from persistance import Link, add_obj_to_session
+from persistance import Link, add_obj_to_session, query_table
 from request import request_url
 from urlparse import urlparse, urljoin
 
+#placeholder for config
+this_config = {}
 
 ''' PULLS LINKS FROM HTML DOCUMENT '''
 def get_child_links(html_doc):
@@ -36,19 +38,26 @@ def crawl(url, parent_url, parent_link_level):
             #store the link object (the link, its parent, its 'depth' or level
             link_obj = Link(url=link, parent=parent_url, depth=parent_link_level + 1)
             add_obj_to_session(link_obj)
-            if parent_link_level < 1:
-                crawl(link, url, parent_link_level + 1)
+            try:
+                if parent_link_level < int(this_config['depth']):
+                    crawl(link, url, parent_link_level + 1)
+            except:
+                print 'Error in crawl(), check that depth is a number in your config'
 
 # this is the entrypoint into the crawler for the actual 'engine'
-def start_crawler(target):
+def start_crawler(config):
     #store the target itself
+    global this_config
+    this_config = config
+    target = this_config['target']
     target_link_obj = Link(url=target, parent='', depth=0)
     add_obj_to_session(target_link_obj)
     
     #kick off the crawl
     crawl(target,target,0)
 
-
+def crawl_report():
+    query_table(Link)
 
 '''USING get_child_links      
 get_child_links('<html><head><title>The Dormouse\'s story</title></head> \

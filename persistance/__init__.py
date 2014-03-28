@@ -33,7 +33,10 @@ class Link(Base):
     depth = Column(Integer)
     
     def __repr__(self):
-        return "<Link(url='%s')>" % self.url
+        return "<Link(url='%s', " % self.url + \
+               "parent='%s', " % self.parent + \
+               "depth='%i')>" % self.depth 
+    
 '''CREATE ALL OF THE THINGS'''
 Base.metadata.create_all(engine)
 
@@ -49,6 +52,12 @@ def add_obj_to_session(_object):
     finally:
         session.close()
 
+def query_table(_class):
+    count = 0
+    for result in session.query(_class).all():
+        print result
+        count = count + 1
+    print str(count) + ' links found.'
 '''
 testerlink = Link(url='blah',parent='', depth=1)
 add_obj_to_session(testerlink)
