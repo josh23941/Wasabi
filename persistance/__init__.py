@@ -49,6 +49,7 @@ def add_obj_to_session(_object):
     finally:
         session.close()
 
+'''
 testerlink = Link(url='blah',parent='', depth=1)
 add_obj_to_session(testerlink)
 print session.query(Link).filter_by(url='blah').first()
@@ -56,3 +57,4 @@ print session.query(Link).filter_by(url='blah').first()
 tester = Test(name='bob')
 add_obj_to_session(tester)
 print session.query(Test).filter_by(name='bob').first()
+'''

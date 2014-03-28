@@ -4,7 +4,7 @@ Created on Mar 24, 2014
 @author: josh23941
 '''
 from bs4 import BeautifulSoup
-from persistance import session, Link, add_obj_to_session
+from persistance import Link, add_obj_to_session
 from request import request_url
 from urlparse import urlparse, urljoin
 
@@ -13,7 +13,8 @@ def get_child_links(html_doc):
     soup = BeautifulSoup(html_doc)
     links = []
     for link in soup.find_all('a'):
-        links.append(link.get('href'))
+        if link.get('href') != None:
+            links.append(link.get('href'))
     for link in links:
         print link
     return links
@@ -32,6 +33,8 @@ def crawl(url, parent_url, parent_link_level):
         #store the link object (the link, its parent, its 'depth' or level
         link_obj = Link(url=link, parent=parent_url, depth=parent_link_level + 1)
         add_obj_to_session(link_obj)
+        if parent_link_level < 1:
+            crawl(link, url, parent_link_level + 1)
 
 # this is the entrypoint into the crawler for the actual 'engine'
 def start_crawler(target):
