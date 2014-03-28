@@ -26,9 +26,9 @@ def request_url(url):
     #print response.getcode()
     #print response.info()
     #print response.read()
-        return response.read()
+        return response
     except:
-        return ''
+        return None
 
 
 
